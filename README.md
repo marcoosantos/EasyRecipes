@@ -1,16 +1,15 @@
-# EasyRecipes APP
-EasyRecipes é um aplicativo Android que permite aos usuários explorar receitas em tempo real, obtendo informações diretamente da API [Spoonacular](https://spoonacular.com/food-api). Com uma interface amigável, os usuários podem visualizar detalhes de receitas, incluindo ingredientes e muito mais.
+# EasyRecipes 
+EasyRecipes is an Android app that allows users to explore recipes in real-time, fetching information directly from the Spoonacular API. With a user-friendly interface, users can view recipe details, including ingredients and more.
 
-Funcionalidades
-- Receitas aleatórias: Explore receitas de forma aleatória para descobrir novas maneiras de cozinhar.
-- Detalhes da receita: Obtenha informações detalhadas sobre cada receita, como título, e sumário.
-- Pesquisa por receitas: Não encontrou o que estava buscando? Não tem problema, faça uma busca para obter exatamente o que precisa.
+## 📱 Features
+Random Recipes: Explore recipes randomly to discover new ways to cook.
+Recipe Details: Get detailed information about each recipe, including the title and summary.
+Search for Recipes: Didn’t find what you were looking for? No problem! Perform a search to get exactly what you need.
 
 ## :camera_flash: Screenshots
-<!-- You can add more screenshots here if you like -->
 <img src="https://github.com/roquebuarquejr/EasyRecipes/assets/11612508/998f2aa9-939e-4a8e-9608-8a0c8ab41a51" width=170/> <img src="https://github.com/ComunidadeDevSpace/EasyRecipes/assets/11612508/8149c7fc-a765-441e-9b85-ac0d57907788" width=180/> <img src="https://github.com/ComunidadeDevSpace/EasyRecipes/assets/11612508/ad1f28e5-7e40-43da-9596-1319bc381baf" width=180/> <img src="https://github.com/ComunidadeDevSpace/EasyRecipes/assets/11612508/d238dedc-f29c-4011-8f86-87d4c1b31268" width=180/> <img src="https://github.com/roquebuarquejr/EasyRecipes/assets/11612508/1a1c7882-423e-44a9-a4c6-f4e499825e5e" width=180/>
 
-## Tecnologias
+## 🔧 Technologies used
 - 100% Kotlin
 - Compose
   - Column
@@ -28,7 +27,7 @@ Funcionalidades
   - Query
   - Path
 
-## License
+## 🗃️ License
 ```
 The MIT License (MIT)
 
