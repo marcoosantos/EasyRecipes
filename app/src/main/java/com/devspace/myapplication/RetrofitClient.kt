@@ -16,14 +16,17 @@ object RetrofitClient {
 
             clientBuilder.addInterceptor { chain ->
                 val original: Request = chain.request()
-                val requestBuilder: Request.Builder = original.newBuilder()
-                    .header("Authorization", "Bearer $token")
-                val request: Request = requestBuilder.build()
-                chain.proceed(request)
-            }
-            return clientBuilder.build()
-        }
+                val request = original.newBuilder()
+                val originalHttpUrl = chain.request().url
+                val newUrl = originalHttpUrl.newBuilder()
+                    .addQueryParameter("apiKey", token).build()
+                chain.proceed(request.url(newUrl).build())
 
+            }
+
+            return clientBuilder.build()
+
+        }
 
     val retrofitInstance: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
