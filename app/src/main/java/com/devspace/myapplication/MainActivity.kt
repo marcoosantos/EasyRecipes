@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,9 +34,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import coil.compose.AsyncImage
@@ -43,6 +47,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.core.text.HtmlCompat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +56,7 @@ class MainActivity : ComponentActivity() {
             EasyRecipesTheme {
 
                 val systemUiController = rememberSystemUiController()
-                val useDarkIcons = false
+                val useDarkIcons = true
 
                 SideEffect {
                     systemUiController.setStatusBarColor(
@@ -59,10 +64,6 @@ class MainActivity : ComponentActivity() {
                         darkIcons = useDarkIcons
                     )
                 }
-
-
-
-
 
                 var randomRecipes by remember { mutableStateOf<List<RecipeDto>>(emptyList()) }
 
@@ -94,14 +95,57 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RecipeList(
-                        randomRecipes
-                    ) { recipeClicked ->
 
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+
+                        Text(
+                            modifier = Modifier.padding(top = 38.dp, start = 8.dp, end = 8.dp),
+                            fontSize = 40.sp,
+                            fontWeight = SemiBold,
+                            text = "EasyRecipes"
+                        )
+                        Text(
+                            modifier = Modifier.padding(8.dp),
+                            fontSize = 18.sp,
+                            text = "Find the best recipes for cooking!"
+                        )
+
+                        RecipeSession(
+                            label = "Recipes",
+                            recipeList = randomRecipes,
+                            onCLick = { recipeClicked ->
+
+                            }
+                        )
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun RecipeSession(
+    label: String,
+    recipeList: List<RecipeDto>,
+    onCLick: (RecipeDto) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Text(
+            fontSize = 24.sp,
+            text = label,
+            fontWeight = SemiBold
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        RecipeList(recipeList = recipeList, onCLick = onCLick)
     }
 }
 
@@ -111,12 +155,12 @@ fun RecipeList(
     onCLick: (RecipeDto) -> Unit,
 ) {
     LazyColumn(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(8.dp)
     ) {
         items(recipeList) {
             RecipeItem(
                 recipeDto = it,
-                onCLick = onCLick
+                onCLick = onCLick,
             )
         }
     }
@@ -132,8 +176,8 @@ fun RecipeItem(
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-            onCLick.invoke(recipeDto)
-        }
+                onCLick.invoke(recipeDto)
+            }
     ) {
         AsyncImage(
             contentScale = ContentScale.Crop,
@@ -143,6 +187,18 @@ fun RecipeItem(
                 .height(150.dp),
             model = recipeDto.image,
             contentDescription = "${recipeDto.title} Recipe image"
+        )
+        Spacer(modifier = Modifier.size(4.dp))
+        Text(
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            text = recipeDto.title
+        )
+        Text(
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            text = HtmlCompat.fromHtml(recipeDto.summary, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
         )
     }
 }
