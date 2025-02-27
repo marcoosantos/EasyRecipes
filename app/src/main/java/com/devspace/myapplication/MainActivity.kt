@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -40,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.view.WindowCompat
 import coil.compose.AsyncImage
 import com.devspace.myapplication.ui.theme.EasyRecipesTheme
@@ -56,7 +58,7 @@ class MainActivity : ComponentActivity() {
             EasyRecipesTheme {
 
                 val systemUiController = rememberSystemUiController()
-                val useDarkIcons = true
+                val useDarkIcons = false
 
                 SideEffect {
                     systemUiController.setStatusBarColor(
@@ -64,141 +66,16 @@ class MainActivity : ComponentActivity() {
                         darkIcons = useDarkIcons
                     )
                 }
-
-                var randomRecipes by remember { mutableStateOf<List<RecipeDto>>(emptyList()) }
-
-                val apiService = RetrofitClient.retrofitInstance.create(ApiService::class.java)
-                val callRandomRecipes = apiService.getRandomRecipes()
-
-                callRandomRecipes.enqueue(object : Callback<RecipeResponse> {
-                    override fun onResponse(
-                        call: Call<RecipeResponse>,
-                        response: Response<RecipeResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            val recipes = response.body()?.recipes
-                            if (recipes != null) {
-                                randomRecipes = recipes
-                            }
-                        } else {
-                            Log.d("MainActivity", "Request Error :: ${response.errorBody()}")
-                        }
-                    }
-
-                    override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
-                        Log.d("MainActivity", "Network Error :: ${t.message}")
-                    }
-
-                })
-
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-
-                        Text(
-                            modifier = Modifier.padding(top = 38.dp, start = 8.dp, end = 8.dp),
-                            fontSize = 40.sp,
-                            fontWeight = SemiBold,
-                            text = "EasyRecipes"
-                        )
-                        Text(
-                            modifier = Modifier.padding(8.dp),
-                            fontSize = 18.sp,
-                            text = "Find the best recipes for cooking!"
-                        )
-
-                        RecipeSession(
-                            label = "Recipes",
-                            recipeList = randomRecipes,
-                            onCLick = { recipeClicked ->
-
-                            }
-                        )
-                    }
-                }
             }
-        }
-    }
-}
-
-@Composable
-fun RecipeSession(
-    label: String,
-    recipeList: List<RecipeDto>,
-    onCLick: (RecipeDto) -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Text(
-            fontSize = 24.sp,
-            text = label,
-            fontWeight = SemiBold
-        )
-        Spacer(modifier = Modifier.size(8.dp))
-        RecipeList(recipeList = recipeList, onCLick = onCLick)
-    }
-}
-
-@Composable
-fun RecipeList(
-    recipeList: List<RecipeDto>,
-    onCLick: (RecipeDto) -> Unit,
-) {
-    LazyColumn(
-        modifier = Modifier.padding(8.dp)
-    ) {
-        items(recipeList) {
-            RecipeItem(
-                recipeDto = it,
-                onCLick = onCLick,
-            )
-        }
-    }
-}
-
-@Composable
-fun RecipeItem(
-    recipeDto: RecipeDto,
-    onCLick: (RecipeDto) -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable {
-                onCLick.invoke(recipeDto)
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .safeDrawingPadding(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                App()
             }
-    ) {
-        AsyncImage(
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .clip(RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp))
-                .fillMaxWidth()
-                .height(150.dp),
-            model = recipeDto.image,
-            contentDescription = "${recipeDto.title} Recipe image"
-        )
-        Spacer(modifier = Modifier.size(4.dp))
-        Text(
-            fontWeight = FontWeight.SemiBold,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            text = recipeDto.title
-        )
-        Text(
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
-            text = HtmlCompat.fromHtml(recipeDto.summary, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
-        )
+
+        }
     }
 }
