@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
             EasyRecipesTheme {
 
                 val systemUiController = rememberSystemUiController()
-                val useDarkIcons = false
+                val useDarkIcons = true
 
                 SideEffect {
                     systemUiController.setStatusBarColor(

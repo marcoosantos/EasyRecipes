@@ -34,7 +34,7 @@ import com.devspace.myapplication.ui.theme.EasyRecipesTheme
 fun OnboardingScreen(navHostController: NavHostController) {
     OnboardingContent(
         onClick = {
-            navHostController.navigate("")
+            navHostController.navigate("main_screen")
         }
     )
 }
