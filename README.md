@@ -26,6 +26,7 @@ Search for Recipes: Didn’t find what you were looking for? No problem! Perform
   - Okhttp3
   - Query
   - Path
+  - Spoonacular API
 
 ## 🗃️ License
 ```
