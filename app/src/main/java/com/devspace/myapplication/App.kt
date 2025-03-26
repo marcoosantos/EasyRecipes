@@ -6,20 +6,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.devspace.myapplication.detail.presentation.RecipeDetailViewModel
 import com.devspace.myapplication.detail.presentation.ui.RecipeDetailScreen
-import com.devspace.myapplication.list.presentation.ui.RecipesScreen
+import com.devspace.myapplication.main.presentation.MainScreenViewModel
+import com.devspace.myapplication.main.presentation.ui.MainScreen
 import com.devspace.myapplication.onboarding.ui.OnboardingScreen
 import com.devspace.myapplication.search.presentation.ui.SearchRecipesScreen
 
 @Composable
-fun App() {
+fun App(
+    mainScreenViewModel: MainScreenViewModel,
+    recipeDetailViewModel: RecipeDetailViewModel
+) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "onboarding_screen" ){
         composable(route = "onboarding_screen"){
             OnboardingScreen(navController)
         }
         composable(route = "main_screen"){
-            RecipesScreen(navController)
+            MainScreen(navController, mainScreenViewModel)
         }
 
         composable(
@@ -29,7 +34,7 @@ fun App() {
             })
         ){ backStackEntry ->
             val id = requireNotNull(backStackEntry.arguments?.getString("itemId"))
-            RecipeDetailScreen(id, navController)
+            RecipeDetailScreen(id, navController, recipeDetailViewModel)
         }
         composable(
             route = "search_recipes" + "/{query}",
