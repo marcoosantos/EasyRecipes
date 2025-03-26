@@ -1,4 +1,4 @@
-package com.devspace.myapplication
+package com.devspace.myapplication.search.presentation.ui
 
 import android.util.Log
 import androidx.compose.foundation.clickable
@@ -35,6 +35,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.compose.foundation.lazy.items
+import com.devspace.myapplication.ApiService
+import com.devspace.myapplication.common.data.RetrofitClient
+import com.devspace.myapplication.common.model.SearchRecipeDto
+import com.devspace.myapplication.common.model.SearchRecipesResponse
 
 @Composable
 fun SearchRecipesScreen(query: String, navHostController: NavHostController) {

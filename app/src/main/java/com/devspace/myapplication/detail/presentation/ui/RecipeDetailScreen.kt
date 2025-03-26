@@ -1,4 +1,4 @@
-package com.devspace.myapplication
+package com.devspace.myapplication.detail.presentation.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.core.text.HtmlCompat
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.devspace.myapplication.ApiService
+import com.devspace.myapplication.common.model.RecipeDto
+import com.devspace.myapplication.common.data.RetrofitClient
 import designsystem.components.ERHtlmText
 import retrofit2.Call
 import retrofit2.Callback

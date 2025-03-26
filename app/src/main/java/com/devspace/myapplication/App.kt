@@ -6,6 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.devspace.myapplication.detail.presentation.ui.RecipeDetailScreen
+import com.devspace.myapplication.list.presentation.ui.RecipesScreen
+import com.devspace.myapplication.onboarding.ui.OnboardingScreen
+import com.devspace.myapplication.search.presentation.ui.SearchRecipesScreen
 
 @Composable
 fun App() {
