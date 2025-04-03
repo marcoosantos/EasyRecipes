@@ -1,6 +1,5 @@
 package com.devspace.myapplication.search.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,9 +18,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,39 +27,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import androidx.compose.foundation.lazy.items
-import com.devspace.myapplication.ApiService
-import com.devspace.myapplication.common.data.RetrofitClient
+import androidx.compose.runtime.collectAsState
 import com.devspace.myapplication.common.model.SearchRecipeDto
-import com.devspace.myapplication.common.model.SearchRecipesResponse
+import com.devspace.myapplication.search.presentation.SearchRecipeViewModel
 
 @Composable
-fun SearchRecipesScreen(query: String, navHostController: NavHostController) {
+fun SearchRecipesScreen(
+    query: String,
+    navHostController: NavHostController,
+    searchRecipeViewModel: SearchRecipeViewModel) {
 
-    val service = RetrofitClient.retrofitInstance.create(ApiService::class.java)
-    var searchRecipes by rememberSaveable { mutableStateOf<List<SearchRecipeDto>>(emptyList()) }
+    val searchRecipes by searchRecipeViewModel.uiSearchScreen.collectAsState()
+    searchRecipeViewModel.fetchSearchRecipe(query)
 
-    if (searchRecipes.isEmpty()) {
-        service.searhRecipes(query).enqueue(object : Callback<SearchRecipesResponse> {
-            override fun onResponse(
-                call: Call<SearchRecipesResponse>,
-                response: Response<SearchRecipesResponse>
-            ) {
-                if (response.isSuccessful) {
-                    searchRecipes = response.body()?.results ?: emptyList()
-                } else {
-                    Log.d("MainActivity", "Request Error :: ${response.errorBody()}")
-                }
-            }
-
-            override fun onFailure(call: Call<SearchRecipesResponse>, t: Throwable) {
-                Log.d("MainActivity", "Network Error :: ${t.message}")
-            }
-        })
-    }
 
     Column(
         modifier = Modifier.fillMaxSize()

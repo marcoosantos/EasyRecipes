@@ -11,12 +11,14 @@ import com.devspace.myapplication.detail.presentation.ui.RecipeDetailScreen
 import com.devspace.myapplication.main.presentation.MainScreenViewModel
 import com.devspace.myapplication.main.presentation.ui.MainScreen
 import com.devspace.myapplication.onboarding.ui.OnboardingScreen
+import com.devspace.myapplication.search.presentation.SearchRecipeViewModel
 import com.devspace.myapplication.search.presentation.ui.SearchRecipesScreen
 
 @Composable
 fun App(
     mainScreenViewModel: MainScreenViewModel,
-    recipeDetailViewModel: RecipeDetailViewModel
+    recipeDetailViewModel: RecipeDetailViewModel,
+    searchRecipeViewModel: SearchRecipeViewModel
 ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "onboarding_screen" ){
@@ -43,7 +45,7 @@ fun App(
             })
         ){ backStackEntry ->
             val id = requireNotNull(backStackEntry.arguments?.getString("query"))
-            SearchRecipesScreen(id, navController)
+            SearchRecipesScreen(id, navController, searchRecipeViewModel)
         }
     }
 }

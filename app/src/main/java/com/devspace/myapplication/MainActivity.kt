@@ -12,6 +12,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import com.devspace.myapplication.detail.presentation.RecipeDetailViewModel
 import com.devspace.myapplication.main.presentation.MainScreenViewModel
+import com.devspace.myapplication.search.presentation.SearchRecipeViewModel
 import com.devspace.myapplication.ui.theme.EasyRecipesTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -19,6 +20,7 @@ class MainActivity : ComponentActivity() {
 
     private val mainViewModel by viewModels<MainScreenViewModel> { MainScreenViewModel.Factory }
     private val recipeDetailViewModel by viewModels<RecipeDetailViewModel> { RecipeDetailViewModel.Factory }
+    private val searchRecipeViewModel by viewModels<SearchRecipeViewModel> { SearchRecipeViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +45,8 @@ class MainActivity : ComponentActivity() {
             ) {
                 App(
                     mainScreenViewModel = mainViewModel,
-                    recipeDetailViewModel = recipeDetailViewModel
+                    recipeDetailViewModel = recipeDetailViewModel,
+                    searchRecipeViewModel = searchRecipeViewModel
                 )
             }
 
