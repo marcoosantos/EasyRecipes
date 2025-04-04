@@ -11,6 +11,8 @@ Search for Recipes: Didn’t find what you were looking for? No problem! Perform
 
 ## 🔧 Technologies used
 - 100% Kotlin
+- MVVM
+- Suspend fun
 - Compose
   - Column
   - Row
