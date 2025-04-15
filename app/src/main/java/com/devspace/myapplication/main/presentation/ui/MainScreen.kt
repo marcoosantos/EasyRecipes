@@ -21,34 +21,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.HtmlCompat
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.devspace.myapplication.common.model.RecipeDto
 import com.devspace.myapplication.main.presentation.MainScreenViewModel
-import com.devspace.myapplication.ui.theme.EasyRecipesTheme
 import designsystem.components.ERSearchBar
 
 @Composable
 fun MainScreen(
     navHostController: NavHostController,
-    viewModel: MainScreenViewModel) {
+    viewModel: MainScreenViewModel
+) {
 
-    val recipes by viewModel.uiMainScreen.collectAsState()
+    val mainScreen by viewModel.uiMainScreen.collectAsState()
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
         MainContent(
-            recipes = recipes,
+            mainScreenUiState = mainScreen,
+            recipes = mainScreen.list,
             onSearchClicked = { query ->
                 val tempCleanQuery = query.trim()
                 if (tempCleanQuery.isNotEmpty()) {
@@ -66,10 +66,11 @@ fun MainScreen(
 
 @Composable
 fun MainContent(
+    mainScreenUiState: MainScreenUiState,
     modifier: Modifier = Modifier,
-    recipes: List<RecipeDto>,
+    recipes: List<RecipeUiData>,
     onSearchClicked: (String) -> Unit,
-    onClick: (RecipeDto) -> Unit
+    onClick: (RecipeUiData) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -85,11 +86,20 @@ fun MainContent(
             onSearchClicked = onSearchClicked
         )
 
-        RecipeSession(
-            label = "Recipes",
-            recipeList = recipes,
-            onCLick = onClick
-        )
+        if (mainScreenUiState.isLoading) {
+
+        } else if(mainScreenUiState.isError) {
+            Text(
+                color = Color.Red,
+                text = mainScreenUiState.errorMessage ?: "",
+            )
+        } else {
+            RecipeSession(
+                label = "Recipes",
+                recipeList = recipes,
+                onCLick = onClick
+            )
+        }
     }
 }
 
@@ -120,8 +130,8 @@ fun SearchSession(
 @Composable
 fun RecipeSession(
     label: String,
-    recipeList: List<RecipeDto>,
-    onCLick: (RecipeDto) -> Unit
+    recipeList: List<RecipeUiData>,
+    onCLick: (RecipeUiData) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -140,8 +150,8 @@ fun RecipeSession(
 
 @Composable
 fun RecipeList(
-    recipeList: List<RecipeDto>,
-    onCLick: (RecipeDto) -> Unit,
+    recipeList: List<RecipeUiData>,
+    onCLick: (RecipeUiData) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.padding(8.dp)
@@ -157,8 +167,8 @@ fun RecipeList(
 
 @Composable
 fun RecipeItem(
-    recipeDto: RecipeDto,
-    onCLick: (RecipeDto) -> Unit
+    recipeDto: RecipeUiData,
+    onCLick: (RecipeUiData) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -189,22 +199,6 @@ fun RecipeItem(
             overflow = TextOverflow.Ellipsis,
             text = HtmlCompat.fromHtml(recipeDto.summary, HtmlCompat.FROM_HTML_MODE_LEGACY)
                 .toString()
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainPreview() {
-    EasyRecipesTheme {
-        MainContent(
-            recipes = emptyList(),
-            onSearchClicked = {
-
-            },
-            onClick = {
-
-            }
         )
     }
 }

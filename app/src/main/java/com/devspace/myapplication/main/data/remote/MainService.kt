@@ -1,6 +1,6 @@
-package com.devspace.myapplication.main.data
+package com.devspace.myapplication.main.data.remote
 
-import com.devspace.myapplication.common.model.RecipeResponse
+import com.devspace.myapplication.common.data.remote.model.RecipeResponse
 import retrofit2.Response
 import retrofit2.http.GET
 

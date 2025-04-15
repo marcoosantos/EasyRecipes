@@ -1,4 +1,4 @@
-package com.devspace.myapplication.common.data
+package com.devspace.myapplication.common.data.remote
 
 import com.devspace.myapplication.BuildConfig
 import okhttp3.OkHttpClient
@@ -6,10 +6,9 @@ import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://api.spoonacular.com/"
-
-
 object RetrofitClient {
+
+    private const val BASE_URL = "https://api.spoonacular.com/"
 
     private val httpClient: OkHttpClient
         get() {

@@ -29,7 +29,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
-import com.devspace.myapplication.common.model.SearchRecipeDto
+import com.devspace.myapplication.common.data.remote.model.SearchRecipeDto
 import com.devspace.myapplication.search.presentation.SearchRecipeViewModel
 
 @Composable

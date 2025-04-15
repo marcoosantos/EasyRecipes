@@ -20,7 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.devspace.myapplication.common.model.RecipeDto
+import com.devspace.myapplication.common.data.remote.model.RecipeDto
 import com.devspace.myapplication.detail.presentation.RecipeDetailViewModel
 import designsystem.components.ERHtlmText
 
