@@ -12,6 +12,8 @@ Search for Recipes: Didn’t find what you were looking for? No problem! Perform
 ## 🔧 Technologies used
 - 100% Kotlin
 - MVVM
+- Room DataBase
+- Offiline first
 - Suspend fun
 - Compose
   - Column
